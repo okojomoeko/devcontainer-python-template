@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  plantuml:
+    image: plantuml/plantuml-server
+    ports:
+      - 8080:8080
+
+  mkdocs:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/app
+    ports:
+      - 8000:8000
+    tty: true
+    depends_on:
+      - "plantuml"
+    command: >
+      bash -c "mkdocs serve -a 0.0.0.0:8000"
